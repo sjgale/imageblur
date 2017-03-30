@@ -1,4 +1,4 @@
-# image-blur
+# ImageBlur Chrome Extension
 Chrome Extension that blurs all image elements on a page.
 For documentation for writing chrome extensions, see:
 - https://developer.chrome.com/extensions/overview
