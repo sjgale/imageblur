@@ -1,7 +1,7 @@
 {
-  "name": "ImageBlur Plugin",
+  "name": "ImageBlur",
   "description": "This extension will blur all images in img tags on the page.",
-  "version": "0.0.0.2",
+  "version": "0.0.0.4",
 
 
   "permissions": [
