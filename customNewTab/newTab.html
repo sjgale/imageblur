@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+  <head>
+  	<script src="script.js"></script>
+  	<link href="https://fonts.googleapis.com/css?family=Homemade+Apple" rel="stylesheet">
+	<style>
+		html { 
+		  background: url("/sandiego-pic.jpg") no-repeat center center fixed; 
+		  -webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-size: cover;
+		  color: white;
+		}
+
+		.quoteContainer {
+			display: block;
+			float: right;
+			max-width: 525px;
+			text-align: right;
+			margin: 20px;
+		}
+		quote {
+			font-size: 34px;
+			font-family: "Homemade Apple";
+    		line-height: 42px;
+   			margin: 0;
+		}
+		p.author {
+			font-size: 14px;
+    		line-height: 18px;
+    		margin: 10px 0 0;
+		}
+		.chromeLinks {
+			position: absolute;
+			bottom: 25px;
+			right: 0;
+			font-size: 16px;
+			margin: 0 20px;
+		}
+		a {
+			display: inline-block;
+			text-decoration: none;
+			color: white;
+			cursor: pointer;
+			padding: 0 5px;
+		}
+		a:hover {
+			text-decoration: underline;
+			text-decoration-style: dotted;
+		}
+		a:active {
+			position: relative;
+			top: 1px;
+		}
+
+		@media (max-width: 600px) {
+			.quoteContainer {
+				display: block;
+				position: relative;
+				max-width: 525px;
+				text-align: center;
+				margin: 10px auto;
+				float: none;
+			}
+			quote {
+				font-size: 26px;
+				font-family: "Homemade Apple";
+	    		line-height: 34px;
+			}
+			.chromeLinks {
+				width: 100%;
+				text-align: center;
+				bottom: 15px;
+				font-size: 14px;
+			}
+		}
+	</style>
+  </head>
+  <body>
+  	<div class="quoteContainer">
+		<quote>"Choose your love;<br> love your choice."</quote>
+		<p class="author">Thomas S. Monson</p>
+	</div>
+	<div class="chromeLinks">
+		<a id="apps">Apps</a>|<a id="bookmarks">Booksmarks</a>|<a id="history">History</a>|<a href="https://google.com">Search</a>
+	</div>
+  </body>
+</html>
