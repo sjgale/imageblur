@@ -1,8 +1,8 @@
-# CustomNewTab Extension
-This plugin creates a custom new tab.
+# ImageBlur Chrome Extension
+This plugin blurs out images in <img> tags on the current web page. If you hover over an image for 1 second, the image will be revealed. Features include: blur/unblur images by default, a blur images button, and an "unblur" images button.
 
 ### Featues I would like to add:
-Make this robust and complete! It currently only does a couple things.
+I anticipate adding a better icon, functionality to blur background images, "right-click" option to unblur or blur a specific images on a page and the ability to whitelist and blacklist specific pages/sites.
 
 ### For contributing
 To contribute to this project, please submit a pull request with a detailed description for your changes. Thanks!
