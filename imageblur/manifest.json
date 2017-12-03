@@ -1,0 +1,30 @@
+{
+  "name": "ImageBlur",
+  "description": "This extension will blur all images in img tags on the page.",
+  "version": "0.0.0.4",
+
+
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "*://*/*"
+  ],
+
+  "browser_action": {
+    "default_title": "ImageBlur",
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_start"
+    }
+  ],
+
+  "manifest_version": 2
+}
