@@ -18,10 +18,23 @@
     <h1>ImageBlur</h1>
 
     <label>Blur by default: <input id="defaultBlur" type="checkbox" /></label>
+    
     <br>
     <br>
 
     <button id="blur">Blur!</button>
     <button id="unblur">Unblur</button>
+    <button id="removeBGImages">Remove BG Images</button>
+     
+    <br>
+    <br>
+    
+    <label>Blur Amount (<span id="blurAmountText">6</span>)</label>
+    <input id="blurAmount" type="range" min="1" max="10" value="6">
+
+    <br>
+    <br>
+
+    <p><small>Hold [Shift]+[Alt/Option] and click an image to unblur</small></p>
   </body>
 </html>

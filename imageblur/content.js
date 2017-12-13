@@ -1,6 +1,10 @@
 (function(){
+	chrome.storage.sync.get(['blurOnDefault', 'blurAmount'], function(values){
+		window.imageBlurOpacityAmount = values.blurAmount || 6;
+	});
+
 	function blur(image) {
-		image.style.filter = "blur(6px) opacity(1)";
+		image.style.filter = `blur(${window.imageBlurOpacityAmount}px) opacity(1)`;
 	}
 
 	function show(image) {
@@ -25,15 +29,15 @@
 
 	function reveal(e) {
 		if (window.imageBlurState === "blurred") {
-		    window.blurTimer = setTimeout(() => {
+		    if (e.shiftKey && e.altKey) {
+				e.preventDefault();
 		        show(e.target);
-		    }, 500);
+		    }
 		}
 	}
 
 	function unreveal(e) {
 		if (window.imageBlurState === "blurred") {
-			clearTimeout(window.blurTimer);
 			blur(e.target);
 		}
 	}
@@ -42,9 +46,8 @@
 		const images = document.querySelectorAll('img');
 		for (const image of images) {
 			if (image.dataset.imageBlurOnLoadUpdateOccured != "true") {
-				console.log(image.dataset.imageBlurOnLoadUpdateOccured != true, image.dataset.imageBlurOnLoadUpdateOccured);
 				blur(image);
-				image.addEventListener('mouseover', reveal);
+				image.addEventListener('click', reveal);
 				image.addEventListener('mouseout', unreveal);
 				image.dataset.imageBlurOnLoadUpdateOccured = true;
 			}
@@ -52,12 +55,21 @@
 	  	window.imageBlurState = "blurred";
 	}
 
+	function removeBGImages() {
+		const everything = document.querySelectorAll("*");
+		for (item of everything) {
+			if (item.style) {
+				item.style.backgroundImage = "none";
+			}
+		}
+	}
+
 	function initialLoadRevealAll() {
 		const images = document.querySelectorAll('img');
 		for (const image of images) {
 			if (image.dataset.imageBlurOnLoadUpdateOccured != "true") {
 	    		show(image);
-	    		image.addEventListener('mouseover', reveal);
+	    		image.addEventListener('click', reveal);
 				image.addEventListener('mouseout', unreveal);
 	    		image.dataset.imageBlurOnLoadUpdateOccured = true;
 	    	}
@@ -66,12 +78,13 @@
 	}
 
 	function onPageLoad(e) {
-		chrome.storage.sync.get('blurOnDefault', function(values){
+		chrome.storage.sync.get(['blurOnDefault', 'blurAmount'], function(values){
 			if (values.blurOnDefault) {
 				initialBlurAll();
 			} else {
 				initialLoadRevealAll();
 			}
+			window.imageBlurOpacityAmount = values.blurAmount || 6;
 		});
 	}
 
@@ -80,17 +93,29 @@
 		document.addEventListener('DOMNodeInserted', onPageLoad);
 	});
 
+	chrome.storage.onChanged.addListener(function(changes, namespace) {
+		for (key in changes) {
+			if (key === "blurAmount") {
+				window.imageBlurOpacityAmount = changes[key].newValue;
+			}
+		}
+	});
+
 	chrome.runtime.onMessage.addListener(
 		function(request, sender, sendResponse) {
-			console.log("Blurring...");
-			
-			if (request.status === "blur") {
-				blurAll();
-			} else if (request.status === "unblur") {
-				revealAll();
+			if (request) {
+				switch (request.status) {
+					case 'blur':
+						blurAll();
+						break;
+					case 'unblur':
+						revealAll();
+						break;
+					case 'removeBGImages':
+						removeBGImages();
+						break;
+				}
 			}
-
-			sendResponse("Complete");
 		}
 	);
 })()

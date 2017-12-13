@@ -2,38 +2,47 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-//   chrome.tabs.sendMessage(tabs[0].id, {greeting: "hello"}, function(response) {
-//     console.log(response.farewell);
-//   });
-// });
-
 function blur(e){
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {'status': e.target.id}, function(response) {
-      console.dir(response);
-    });
-  });
+  sendMessage(e.target.id);
+}
+
+function removeBGImages(e) {
+  sendMessage('removeBGImages');
 }
 
 function saveChanges(e) {
-  // Get the checkbox value
-  var blurOnDefault = e.target.checked;
-  // Save it using the Chrome extension storage API.
-  chrome.storage.sync.set({'blurOnDefault': blurOnDefault}, function() {
-    // Notify that we saved.
+  let blurOnDefault = document.getElementById('defaultBlur').checked;
+  let blurAmount = document.getElementById('blurAmount').value;
+
+  // Update UI
+  document.getElementById('blurAmountText').innerText = blurAmount;
+
+  // Save settings
+  chrome.storage.sync.set({'blurOnDefault': blurOnDefault, 'blurAmount': blurAmount}, function() {
     message('Settings saved');
   });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  defaultBlur = document.getElementById('defaultBlur');
+function sendMessage(message) {
+  chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+    chrome.tabs.sendMessage(tabs[0].id, { status: message }, response => {});
+  });
+}
 
+document.addEventListener('DOMContentLoaded', function () {
+  let defaultBlur = document.getElementById('defaultBlur');
+  let blurAmount = document.getElementById('blurAmount');
+  let blurAmountText = document.getElementById('blurAmountText');
+
+  defaultBlur.addEventListener("click", saveChanges, false);
+  blurAmount.addEventListener("input", saveChanges, false)
   document.getElementById('blur').addEventListener('click', blur, false);
   document.getElementById('unblur').addEventListener('click', blur, false);
-  defaultBlur.addEventListener('click', saveChanges, false);
+  document.getElementById('removeBGImages').addEventListener('click', removeBGImages, false);
 
-  chrome.storage.sync.get('blurOnDefault', function(values){
+  chrome.storage.sync.get(['blurOnDefault', 'blurAmount'], function(values){
     defaultBlur.checked = values.blurOnDefault;
+    blurAmount.value = values.blurAmount || 6;
+    blurAmountText.innerText = values.blurAmount || '6';
   });
 });
