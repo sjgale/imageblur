@@ -31,6 +31,7 @@
 		if (window.imageBlurState === "blurred") {
 		    if (e.shiftKey && e.altKey) {
 				e.preventDefault();
+				e.stopPropagation();
 		        show(e.target);
 		    }
 		}
