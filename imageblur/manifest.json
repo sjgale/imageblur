@@ -32,5 +32,6 @@
       "run_at": "document_start"
     }
   ],
+  "web_accessible_resources": [ "assets/mask.png"],
   "manifest_version": 2
 }
